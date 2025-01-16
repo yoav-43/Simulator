@@ -1,0 +1,14 @@
+# Visual Studio-specific files
+.vs/
+*.suo
+*.VC.db
+*.VC.opendb
+ipch/
+
+# Build output directories
+[Bb]in/
+[Oo]bj/
+
+# Temporary files
+*.log
+*.tmp
