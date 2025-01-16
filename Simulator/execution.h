@@ -2,8 +2,9 @@
 #define EXECUTION_H
 
 #include <stdint.h>
-#include "registers.h" // To access and modify registers
+#include "registers.h" // To access and modify the registers
 #include "memory.h"    // For memory-related instructions
+#include "io.h" // To access and modify the io registers
 #include "instruction_fetch.h" // For the pc handaling
 #include "instruction_decode.h" // For the decoded instruction
 

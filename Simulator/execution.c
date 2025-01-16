@@ -5,7 +5,7 @@
 
 
 // Execute the instruction from instruction decode
-void execute_instruction(const Instruction *decoded_instruction, Registers *registers, Memory *memory, uint16_t *pc) {
+void execute_instruction(const Instruction *decoded_instruction, Registers *registers, Memory *memory, IORegisters *IORegister, uint16_t *pc) {
 	uint32_t rs = get_register(registers, decoded_instruction->rs);
 	uint32_t rt = get_register(registers, decoded_instruction->rt);
 	uint32_t rm = get_register(registers, decoded_instruction->rm);
@@ -133,8 +133,7 @@ void execute_instruction(const Instruction *decoded_instruction, Registers *regi
 		break;
 
 	case 15: // jal
-		result = *pc + 1;
-		set_register(registers, decoded_instruction->rd, result); // Save return address
+		set_register(registers, decoded_instruction->rd, *pc + 1); // Save return address
 		*pc = rm & 0x0FFF; // Jump to the address in the lower 12 bits of R[rm]
 		break;
 
@@ -147,24 +146,24 @@ void execute_instruction(const Instruction *decoded_instruction, Registers *regi
 		break;
 
 	case 17: // sw
-		result = rm + rd;
-		write_data(memory, rs + rt, result);
+		write_data(memory, rs + rt, rm + rd);
 		(*pc)++;
 		break;
 
 	// I/O and Control Instructions
 	
 	case 18: // reti
-		// PC = IORegister[7]
+		*pc = io_read(IORegister, 7);
 		break;
 
 	case 19: // in
-		// R[rd] = IORegister[R[rs] + R[rt]]
+		result = io_read(IORegister, rs + rt); // Read from I/O register indexed by rs
+		set_register(registers, decoded_instruction->rd, result); // Write to destination register
 		(*pc)++;
 		break;
 
 	case 20: // out
-		// IORegister[R[rs] + R[rt]] = R[rm]
+		io_write(IORegister, rs + rt, rm); // Write to I/O register
 		(*pc)++;
 		break;
 
