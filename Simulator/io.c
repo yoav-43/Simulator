@@ -36,13 +36,15 @@ void io_increment_clock(IORegisters *io) {
 }
 
 // Update the timer registers
-void io_update_timer(IORegisters *io) {
-	if (io->IORegister[11]) { // If timerenable is set
-		if (io->IORegister[12] > 0) { // timercurrent > 0
-			io->IORegister[12]--;
+void update_timer(IORegisters *io) {
+	if (io->IORegister[11]) { // timerenable
+		if (io->IORegister[12] > 0) {
+			io->IORegister[12]--; // Decrement timercurrent
 		}
-		else { // Reset timercurrent to timermax
-			io->IORegister[12] = io->IORegister[13];
+		else {
+			io->IORegister[12] = io->IORegister[13]; // Reset to timermax
+			io->IORegister[3] = 1; // Set irq0status
 		}
 	}
 }
+
