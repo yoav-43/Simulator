@@ -42,7 +42,7 @@ void io_write(IORegisters *io, int reg_index, uint32_t value);
 -Functionality: Increment the clock counter.
 -parameter1: io - Pointer to the I/O registers structure.
 */
-void io_increment_clock(IORegisters *io);
+void increment_clock(IORegisters *io);
 
 
 /*

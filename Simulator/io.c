@@ -31,7 +31,7 @@ void io_write(IORegisters *io, int reg_index, uint32_t value) {
 }
 
 // Increment the clock counter
-void io_increment_clock(IORegisters *io) {
+void increment_clock(IORegisters *io) {
 	io_write(io, 8, io->IORegister[8] + 1); // Increment clks register
 }
 
