@@ -17,9 +17,9 @@
 -parameter2: registers - Pointer to the Registers structure.
 -parameter3: memory - Pointer to the Memory structure.
 -parameter4: pc - Pointer to the Program counter.
-
+-parameter5: in_isr - Pointer to the flag the indicates if the code is in the ISR.
 */
-void execute_instruction(const Instruction *decoded_instruction, Registers *registers, Memory *memory, uint16_t *pc);
+void execute_instruction(const Instruction *decoded_instruction, Registers *registers, Memory *memory, uint16_t *pc, int *in_isr);
 
 
 #endif 
