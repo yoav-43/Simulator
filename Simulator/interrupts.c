@@ -61,7 +61,7 @@ void free_irq2_data(IRQ2Data *irq2) {
 }
 
 // Handle interrupts
-void handle_interrupts(IORegisters *io, uint32_t *pc, int *in_isr) {
+void handle_interrupts(IORegisters *io, uint16_t *pc, int *in_isr) {
 	// Compute the irq signal
 	int irq = (io->IORegister[0] & io->IORegister[3]) | // irq0enable & irq0status
 		(io->IORegister[1] & io->IORegister[4]) | // irq1enable & irq1status
