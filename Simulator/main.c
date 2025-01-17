@@ -49,6 +49,7 @@ void simulator_main_loop(Registers *registers, Memory *memory, IORegisters *io, 
 }
 
 int main() {
+	printf("yoav");
 	printf("Hello, Simulator!\n");
 	return 0;
 }
