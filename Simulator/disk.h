@@ -6,12 +6,12 @@
 #include "io.h"
 
 // Disk constants
-#define DISK_SECTORS 128  // Number of sectors in the disk
+#define NUM_OF_SECTORS 128  // Number of sectors in the disk
 #define SECTOR_SIZE 512   // Bytes per sector
 
 // Disk structure
 typedef struct {
-	uint8_t data[DISK_SECTORS][SECTOR_SIZE]; // Disk sectors
+	uint8_t data[NUM_OF_SECTORS][SECTOR_SIZE]; // Disk sectors
 	int timer;                               // Timer for disk operations
 } Disk;
 

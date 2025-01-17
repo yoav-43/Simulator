@@ -13,6 +13,10 @@ typedef struct {
 	int current_index;   // Index of the next event to trigger
 } IRQ2Data;
 
+
+// Function declaration
+
+
 /*
 - Functionality: Loads IRQ2 events from an input file.
 - Parameter1: filename - Path to the input file specifying IRQ2 trigger clock cycles.

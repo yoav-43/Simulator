@@ -28,7 +28,7 @@ void load_disk(const char *filename, Disk *disk) {
 		if (byte_index == SECTOR_SIZE) {
 			byte_index = 0;
 			sector++;
-			if (sector == DISK_SECTORS) break;
+			if (sector == NUM_OF_SECTORS) break;
 		}
 	}
 
@@ -44,7 +44,7 @@ void write_disk(const char *filename, const Disk *disk) {
 		return;
 	}
 
-	for (int sector = 0; sector < DISK_SECTORS; sector++) {
+	for (int sector = 0; sector < NUM_OF_SECTORS; sector++) {
 		for (int byte = 0; byte < SECTOR_SIZE; byte++) {
 			fprintf(file, "%02X\n", disk->data[sector][byte]);
 		}
@@ -56,10 +56,10 @@ void write_disk(const char *filename, const Disk *disk) {
 
 // Read a sector from the disk into memory
 void read_sector(Memory *memory, const IORegisters *io, const Disk *disk) {
-	int sector = io->IORegister[15];
-	int buffer = io->IORegister[16];
+	int sector = io->IORegister[DISKSECTOR];
+	int buffer = io->IORegister[DISKBUFFER];
 
-	if (sector < 0 || sector >= DISK_SECTORS) {
+	if (sector < 0 || sector >= NUM_OF_SECTORS) {
 		printf("Error: Invalid sector number %d\n", sector);
 		return;
 	}
@@ -74,10 +74,10 @@ void read_sector(Memory *memory, const IORegisters *io, const Disk *disk) {
 
 // Write a sector from memory to the disk
 void write_sector(const Memory *memory, const IORegisters *io, Disk *disk) {
-	int sector = io->IORegister[15];
-	int buffer = io->IORegister[16];
+	int sector = io->IORegister[DISKSECTOR];
+	int buffer = io->IORegister[DISKBUFFER];
 
-	if (sector < 0 || sector >= DISK_SECTORS) {
+	if (sector < 0 || sector >= NUM_OF_SECTORS) {
 		printf("Error: Invalid sector number %d\n", sector);
 		return;
 	}
@@ -91,7 +91,7 @@ void write_sector(const Memory *memory, const IORegisters *io, Disk *disk) {
 // Handle disk commands and update DMA/IRQ
 void handle_disk_command(Memory *memory, IORegisters *io, Disk *disk) {
 	// Check if the disk is busy
-	if (io->IORegister[17] == 1) {
+	if (io->IORegister[DISKSTATUS] == 1) {
 		// If the disk is busy, decrement the timer
 		if (disk->timer > 0) {
 			disk->timer--;
@@ -99,20 +99,20 @@ void handle_disk_command(Memory *memory, IORegisters *io, Disk *disk) {
 			// When the timer reaches 0, complete the operation
 			if (disk->timer == 0) {
 				// Reset diskcmd and diskstatus
-				io->IORegister[14] = 0; // Clear diskcmd
-				io->IORegister[17] = 0; // Set diskstatus to "ready"
+				io->IORegister[DISKCMD] = 0; // Clear diskcmd
+				io->IORegister[DISKSTATUS] = 0; // Set diskstatus to "ready"
 
 				// Raise the interrupt to signal that the operation is complete
-				io->IORegister[4] = 1; // Set irq1status
+				io->IORegister[IRQ1STATUS] = 1; // Set irq1status
 			}
 		}
 		return; // Exit since the disk is still busy
 	}
 
 	// If the disk is ready, check if a new command is issued
-	else if (io->IORegister[14] != 0) {
+	else if (io->IORegister[DISKCMD] != 0) {
 		// Perform the operation specified in diskcmd
-		switch (io->IORegister[14]) {
+		switch (io->IORegister[DISKCMD]) {
 		case 1: // Read sector
 			read_sector(memory, io, disk); // Perform the read operation
 			break;
@@ -129,7 +129,7 @@ void handle_disk_command(Memory *memory, IORegisters *io, Disk *disk) {
 		disk->timer = 1024;
 
 		// Set diskstatus to "not ready"
-		io->IORegister[17] = 1; // Disk is busy
+		io->IORegister[DISKSTATUS] = 1; // Disk is busy
 	}
 }
 

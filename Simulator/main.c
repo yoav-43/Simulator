@@ -27,7 +27,7 @@ void simulator_main_loop(Registers *registers, Memory *memory, IORegisters *io, 
 		update_timer(io);
 
 		// Check and trigger IRQ2 based on the current clock cycle
-		check_and_trigger_irq2(io, irq2, io->IORegister[8]);
+		check_and_trigger_irq2(io, irq2, io->IORegister[CLKS]);
 
 		// Handle interrupts if any are pending
 		handle_interrupts(io, &pc, &in_isr);
@@ -36,15 +36,14 @@ void simulator_main_loop(Registers *registers, Memory *memory, IORegisters *io, 
 		handle_disk_command(memory, io, disk);
 
 		// Fetch the next instruction using the 12-bit PC
-		uint8_t instruction = fetch_instruction(memory, &pc);
+		uint8_t* instruction = fetch_instruction(memory, &pc);
 
 		// Decode the fetched instruction
-		Instruction* decoded;
+		Instruction* decoded; = NULL;
 		decode_instruction(instruction, decoded, registers);
 
 		// Execute the decoded instruction
 		execute_instruction(decoded, registers, memory, io,  &pc, &in_isr);
-
 	}
 }
 

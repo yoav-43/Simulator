@@ -2,9 +2,32 @@
 #define IO_H
 
 #include <stdint.h>
-
+// Number of IO Registers
 #define NUM_IO_REGISTERS 23
-
+// IO Register Definitions
+#define IRQ0ENABLE      0  // Enable IRQ0
+#define IRQ1ENABLE      1  // Enable IRQ1
+#define IRQ2ENABLE      2  // Enable IRQ2
+#define IRQ0STATUS      3  // Status of IRQ0
+#define IRQ1STATUS      4  // Status of IRQ1
+#define IRQ2STATUS      5  // Status of IRQ2
+#define IRQHANDLER      6  // Address of interrupt handler
+#define IRQRETURN       7  // Address to return after interrupt
+#define CLKS            8  // Clock cycle counter
+#define LEDS            9  // LED state
+#define DISPLAY7SEG     10 // 7-segment display
+#define TIMERENABLE     11 // Enable/Disable timer
+#define TIMERCURRENT    12 // Current timer value
+#define TIMERMAX        13 // Timer max value
+#define DISKCMD         14 // Disk command (Read/Write)
+#define DISKSECTOR      15 // Disk sector
+#define DISKBUFFER      16 // Disk buffer
+#define DISKSTATUS      17 // Disk status
+#define RESERVE1        18 // Reserved for future use
+#define RESERVE2        19 // Reserved for future use
+#define MONITORADDR     20 // Monitor address
+#define MONITORCMD      21 // Monitor command
+#define DISPLAY7SEG     22 // 7-segment display
 // Define bit widths for each register
 static const int IO_REGISTER_SIZES[NUM_IO_REGISTERS] = {1,  1,  1,  1,  1,  1,  12, 12, 32, 32, 32, 1, 32, 32, 2, 7, 12, 1, 32, 32, 16, 8, 1};
 
@@ -12,6 +35,9 @@ static const int IO_REGISTER_SIZES[NUM_IO_REGISTERS] = {1,  1,  1,  1,  1,  1,  
 typedef struct {
 	uint32_t  IORegister[NUM_IO_REGISTERS];
 } IORegisters;
+
+
+// Function declaration
 
 
 /*

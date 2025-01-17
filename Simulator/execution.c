@@ -153,7 +153,7 @@ void execute_instruction(const Instruction *decoded_instruction, Registers *regi
 	// I/O and Control Instructions
 	
 	case 18: // reti
-		*pc = io_read(IORegister, 7);
+		*pc = io_read(IORegister, IRQRETURN);
 		*in_isr = 0;                 // Mark ISR as finished
 		break;
 

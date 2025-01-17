@@ -32,20 +32,20 @@ void io_write(IORegisters *io, int reg_index, uint32_t value) {
 
 // Increment the clock counter
 void increment_clock(IORegisters *io) {
-	io_write(io, 8, io->IORegister[8] + 1); // Increment clks register
+	io_write(io, 8, io->IORegister[CLKS] + 1); // Increment clks register
 }
 
 // Update the timer registers
 void update_timer(IORegisters *io) {
 	// Check if the timer is enabled
-	if (io->IORegister[11] == 1) { // timerenable
+	if (io->IORegister[TIMERENABLE] == 1) { // timerenable
 		// Increment timercurrent
-		io->IORegister[12]++; // Increment 32-bit current timer value
+		io->IORegister[TIMERCURRENT]++; // Increment 32-bit current timer value
 
 		// Check if timercurrent matches timermax
-		if (io->IORegister[12] == io->IORegister[13]) { // timermax
-			io->IORegister[3] = 1;   // Set irqstatus0 to trigger IRQ0
-			io->IORegister[12] = 0; // Reset timercurrent to 0
+		if (io->IORegister[TIMERCURRENT] == io->IORegister[TIMERMAX]) { // timermax
+			io->IORegister[IRQ0STATUS] = 1;   // Set irqstatus0 to trigger IRQ0
+			io->IORegister[TIMERCURRENT] = 0; // Reset timercurrent to 0
 		}
 	}
 }
