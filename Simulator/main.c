@@ -49,6 +49,7 @@ void simulator_main_loop(Registers *registers, Memory *memory, IORegisters *io, 
 }
 
 int main() {
+  	printf("Now we try to work with GIT");
 	printf("Hello, Simulator!\n");
 	return 0;
 }
