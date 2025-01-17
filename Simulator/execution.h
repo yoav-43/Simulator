@@ -16,10 +16,11 @@
 -parameter1: decoded_instruction - Pointer to the decoded instruction.
 -parameter2: registers - Pointer to the Registers structure.
 -parameter3: memory - Pointer to the Memory structure.
--parameter4: pc - Pointer to the Program counter.
--parameter5: in_isr - Pointer to the flag the indicates if the code is in the ISR.
+-parameter4: IORegister - Pointer to the IO Registers structure.
+-parameter5: pc - Pointer to the Program counter.
+-parameter6: in_isr - Pointer to the flag the indicates if the code is in the ISR.
 */
-void execute_instruction(const Instruction *decoded_instruction, Registers *registers, Memory *memory, uint16_t *pc, int *in_isr);
+void execute_instruction(const Instruction *decoded_instruction, Registers *registers, Memory *memory, IORegisters *IORegister, uint16_t *pc, int *in_isr);
 
 
 #endif 

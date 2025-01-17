@@ -23,11 +23,12 @@
 #define DISKSECTOR      15 // Disk sector
 #define DISKBUFFER      16 // Disk buffer
 #define DISKSTATUS      17 // Disk status
-#define RESERVE1        18 // Reserved for future use
-#define RESERVE2        19 // Reserved for future use
+#define RESERVED1       18 // Reserved for future use
+#define RESERVED2       19 // Reserved for future use
 #define MONITORADDR     20 // Monitor address
+#define MONITORDATA      21 // Monitor command
 #define MONITORCMD      21 // Monitor command
-#define DISPLAY7SEG     22 // 7-segment display
+
 // Define bit widths for each register
 static const int IO_REGISTER_SIZES[NUM_IO_REGISTERS] = {1,  1,  1,  1,  1,  1,  12, 12, 32, 32, 32, 1, 32, 32, 2, 7, 12, 1, 32, 32, 16, 8, 1};
 

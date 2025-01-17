@@ -36,11 +36,11 @@ void simulator_main_loop(Registers *registers, Memory *memory, IORegisters *io, 
 		handle_disk_command(memory, io, disk);
 
 		// Fetch the next instruction using the 12-bit PC
-		uint8_t* instruction = fetch_instruction(memory, &pc);
+		const uint8_t* instruction = fetch_instruction(memory, &pc);
 
 		// Decode the fetched instruction
-		Instruction* decoded; = NULL;
-		decode_instruction(instruction, decoded, registers);
+		Instruction* decoded;
+		decode_instruction(instruction, &decoded, registers);
 
 		// Execute the decoded instruction
 		execute_instruction(decoded, registers, memory, io,  &pc, &in_isr);
