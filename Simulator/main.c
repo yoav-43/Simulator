@@ -89,7 +89,7 @@ void simulator_main_loop(Registers *registers, Memory *memory, IORegisters *io, 
 		// Fetch the next instruction using the 12-bit PC
 		const uint8_t* instruction = fetch_instruction(memory, &pc);
 
-		// Write to the trace file before executing the instruction
+		// Write to the trace file 
 		write_trace(trace_file, pc, *instruction, registers);
 
 		// Decode the fetched instruction
@@ -99,11 +99,13 @@ void simulator_main_loop(Registers *registers, Memory *memory, IORegisters *io, 
 		execute_instruction(&decoded, registers, memory, io, &pc, &in_isr);
 
 		/*
-		// Log hardware register changes
-		log_hardware_registers(hwregtrace_file, io);
+		// Write to the hardwere registers trace file
+		write_hardware_trace_(hwregtrace_file, io);
 
-		// Update LEDs and 7-segment display logs if needed
+		// Update the LEDs file 
 		log_leds(leds_file, io);
+		
+		// Update the 7-segment file
 		log_display7seg(display7seg_file, io);
 		*/
 	}
