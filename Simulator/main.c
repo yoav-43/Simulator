@@ -20,11 +20,14 @@ void simulator_main_loop(Registers *registers, Memory *memory, IORegisters *io, 
 	int in_isr = 0;         // ISR state (0 = not in ISR, 1 = in ISR)
 
 	while (1) {
-		// Get the current clock cycle from the clks register
-		uint32_t current_cycle = io->IORegister[8];
+		// Increment the clock register
+		increment_clock(io);
+
+		// Update the timer
+		update_timer(io);
 
 		// Check and trigger IRQ2 based on the current clock cycle
-		check_and_trigger_irq2(io, irq2, current_cycle);
+		check_and_trigger_irq2(io, irq2, io->IORegister[8]);
 
 		// Handle interrupts if any are pending
 		handle_interrupts(io, &pc, &in_isr);
@@ -39,11 +42,9 @@ void simulator_main_loop(Registers *registers, Memory *memory, IORegisters *io, 
 		Instruction* decoded;
 		decode_instruction(instruction, decoded, registers);
 
-		// Execute the decoded instruction, including updates to registers
+		// Execute the decoded instruction
 		execute_instruction(decoded, registers, memory, io,  &pc, &in_isr);
 
-		// Increment the clock register
-		increment_clock(io);
 	}
 }
 

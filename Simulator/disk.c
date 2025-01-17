@@ -110,7 +110,7 @@ void handle_disk_command(Memory *memory, IORegisters *io, Disk *disk) {
 	}
 
 	// If the disk is ready, check if a new command is issued
-	if (io->IORegister[14] != 0) {
+	else if (io->IORegister[14] != 0) {
 		// Perform the operation specified in diskcmd
 		switch (io->IORegister[14]) {
 		case 1: // Read sector
@@ -132,5 +132,4 @@ void handle_disk_command(Memory *memory, IORegisters *io, Disk *disk) {
 		io->IORegister[17] = 1; // Disk is busy
 	}
 }
-
 

@@ -37,14 +37,18 @@ void increment_clock(IORegisters *io) {
 
 // Update the timer registers
 void update_timer(IORegisters *io) {
-	if (io->IORegister[11]) { // timerenable
-		if (io->IORegister[12] > 0) {
-			io->IORegister[12]--; // Decrement timercurrent
-		}
-		else {
-			io->IORegister[12] = io->IORegister[13]; // Reset to timermax
-			io->IORegister[3] = 1; // Set irq0status
+	// Check if the timer is enabled
+	if (io->IORegister[11] == 1) { // timerenable
+		// Increment timercurrent
+		io->IORegister[12]++; // Increment 32-bit current timer value
+
+		// Check if timercurrent matches timermax
+		if (io->IORegister[12] == io->IORegister[13]) { // timermax
+			io->IORegister[3] = 1;   // Set irqstatus0 to trigger IRQ0
+			io->IORegister[12] = 0; // Reset timercurrent to 0
 		}
 	}
 }
+
+
 
