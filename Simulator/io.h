@@ -49,6 +49,6 @@ void increment_clock(IORegisters *io);
 -Functionality:  * Update the timer registers.
 -parameter1: io - Pointer to the I/O registers structure.
 */
-void io_update_timer(IORegisters *io);
+void update_timer(IORegisters *io);
 
 #endif 

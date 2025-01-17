@@ -33,10 +33,10 @@ void simulator_main_loop(Registers *registers, Memory *memory, IORegisters *io, 
 		handle_interrupts(io, &pc, &in_isr);
 
 		// Manage disk operations (e.g., read/write tasks)
-		manage_disk(memory, io, disk);
+		handle_disk_command(memory, io, disk);
 
 		// Fetch the next instruction using the 12-bit PC
-		uint32_t instruction = fetch_instruction(memory, &pc);
+		uint8_t instruction = fetch_instruction(memory, &pc);
 
 		// Decode the fetched instruction
 		Instruction* decoded;
