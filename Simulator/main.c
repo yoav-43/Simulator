@@ -1,10 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
-// Standard Library Includes
 #include <stdint.h>   // For fixed-width integer types (e.g., uint32_t, uint16_t)
 #include <stdio.h>    // For input/output operations (e.g., printf, fopen)
 #include <stdlib.h>   // For memory allocation and exit handling
-
-// Simulator Includes
 #include "registers.h"   
 #include "memory.h"      
 #include "io.h"         
@@ -20,7 +17,7 @@ void simulator_main_loop(Registers *registers, Memory *memory, IORegisters *io, 
 	uint16_t pc = 0;        // Program counter (12-bit)
 	int in_isr = 0;         // ISR state (0 = not in ISR, 1 = in ISR)
 
-	while (1) {
+	while (io->halt_flag) {
 		// Increment the clock register
 		increment_clock(io);
 
@@ -29,12 +26,12 @@ void simulator_main_loop(Registers *registers, Memory *memory, IORegisters *io, 
 
 		// Check and trigger IRQ2 based on the current clock cycle
 		check_and_trigger_irq2(io, irq2, io->IORegister[CLKS]);
+		
+		// Manage disk operations (e.g., read/write tasks)
+		handle_disk_command(memory, io, disk);
 
 		// Handle interrupts if any are pending
 		handle_interrupts(io, &pc, &in_isr);
-
-		// Manage disk operations (e.g., read/write tasks)
-		handle_disk_command(memory, io, disk);
 		
 		// Handle monitor commands
 		if (io->IORegister[MONITORCMD] == 1) {

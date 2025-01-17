@@ -5,6 +5,7 @@
 // Initialize all I/O registers to 0
 void init_io(IORegisters *io) {
 	memset(io->IORegister, 0, sizeof(io->IORegister));
+	io->halt_flag = 1;
 }
 
 // Read a value from an I/O register

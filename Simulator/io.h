@@ -35,6 +35,7 @@ static const int IO_REGISTER_SIZES[NUM_IO_REGISTERS] = {1,  1,  1,  1,  1,  1,  
 // Structure for I/O registers
 typedef struct {
 	uint32_t  IORegister[NUM_IO_REGISTERS];
+	int halt_flag;
 } IORegisters;
 
 

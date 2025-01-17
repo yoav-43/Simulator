@@ -169,7 +169,7 @@ void execute_instruction(const Instruction *decoded_instruction, Registers *regi
 		break;
 
 	case 21: // halt
-		exit(0);
+		IORegister->halt_flag = 0;
 
 	default:
 		printf("Error: Unsupported opcode %d\n", decoded_instruction->opcode);
