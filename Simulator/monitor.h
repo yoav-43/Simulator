@@ -21,7 +21,7 @@ typedef struct {
 - Functionality: Initializes the monitor's frame buffer by setting all pixels to black (0).
 - Parameter1: monitor - Pointer to the Monitor structure.
 */
-void initialize_monitor(Monitor *monitor);
+void init_monitor(Monitor *monitor);
 
 /*
 - Functionality: Writes a pixel to the monitor's frame buffer.

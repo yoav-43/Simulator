@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "io.h"
 #include <string.h>
 #include <stdio.h>
@@ -34,6 +35,20 @@ void io_write(IORegisters *io, int reg_index, uint32_t value) {
 // Increment the clock counter
 void increment_clock(IORegisters *io) {
 	io_write(io, 8, io->IORegister[CLKS] + 1); // Increment clks register
+}
+
+// Writes the total number of clock cycles to the specified file
+void write_cycles(const char *filename, const IORegisters *io) {
+	FILE *file = fopen(filename, "w");
+	if (!file) {
+		printf("Error: Could not open %s for writing.\n", filename);
+		return;
+	}
+
+	// Write the value of the CLKS register as a decimal number
+	fprintf(file, "%u\n", io->IORegister[CLKS]);
+
+	fclose(file);
 }
 
 // Update the timer registers

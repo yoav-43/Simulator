@@ -72,6 +72,12 @@ void io_write(IORegisters *io, int reg_index, uint32_t value);
 */
 void increment_clock(IORegisters *io);
 
+/*
+- Functionality: Writes the total number of clock cycles to the specified file.
+- Parameter1: filename - Name of the output file (e.g., "cycles.txt").
+- Parameter2: io - Pointer to the IORegisters structure containing the clock register.
+*/
+void write_cycles(const char *filename, const IORegisters *io);
 
 /*
 -Functionality:  * Update the timer registers.

@@ -1,8 +1,9 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "monitor.h"
 #include "io.h" 
 
 // Initialize the monitor's frame buffer to all zeros
-void initialize_monitor(Monitor *monitor) {
+void init_monitor(Monitor *monitor) {
 	memset(monitor->frame_buffer, 0, sizeof(monitor->frame_buffer));
 }
 
