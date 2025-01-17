@@ -5,17 +5,18 @@
 #include <stdlib.h>   // For memory allocation and exit handling
 
 // Simulator Includes
+#include "registers.h"   
 #include "memory.h"      
 #include "io.h"         
-#include "registers.h"   
-#include "disk.h"        
+#include "disk.h" 
+#include "monitor.h" 
 #include "interrupts.h"  
 #include "instruction_fetch.h"
 #include "instruction_decode.h" 
 #include "execution.h" 
 
  // The simulator fetch-decode-exe loop
-void simulator_main_loop(Registers *registers, Memory *memory, IORegisters *io, Disk *disk, IRQ2Data *irq2) {
+void simulator_main_loop(Registers *registers, Memory *memory, IORegisters *io, Disk *disk, IRQ2Data *irq2, Monitor *monitor) {
 	uint16_t pc = 0;        // Program counter (12-bit)
 	int in_isr = 0;         // ISR state (0 = not in ISR, 1 = in ISR)
 
@@ -34,6 +35,11 @@ void simulator_main_loop(Registers *registers, Memory *memory, IORegisters *io, 
 
 		// Manage disk operations (e.g., read/write tasks)
 		handle_disk_command(memory, io, disk);
+		
+		// Handle monitor commands
+		if (io->IORegister[MONITORCMD] == 1) {
+			write_pixel(monitor, io); // Write the pixel to the monitor
+		}
 
 		// Fetch the next instruction using the 12-bit PC
 		const uint8_t* instruction = fetch_instruction(memory, &pc);
@@ -44,6 +50,7 @@ void simulator_main_loop(Registers *registers, Memory *memory, IORegisters *io, 
 
 		// Execute the decoded instruction
 		execute_instruction(decoded, registers, memory, io,  &pc, &in_isr);
+
 	}
 }
 
